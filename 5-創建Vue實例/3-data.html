@@ -1,0 +1,23 @@
+<head>
+    <title>data</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">{{ x + y }}</div>
+    <script>
+        // 用外部 data 當 Vue 實例的 data
+        const data = {
+            x: 1,
+            y: 2,
+        };
+        const vm = new Vue({
+            el: "#app",
+            data
+        });
+
+        // vm.x 與 data.x 會產生雙向綁定
+        vm.x = 9;
+        console.log(data.x); // 9
+        console.log(vm.$data === data); // true
+    </script>
+</body>

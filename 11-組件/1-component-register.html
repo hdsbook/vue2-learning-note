@@ -1,0 +1,42 @@
+<head>
+    <title>組件的註冊與使用</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <global-component></global-component>
+    </div>
+    <div id="app2">
+        <global-component></global-component>
+        <local-component></local-component>
+    </div>
+
+    <script>
+        // Global component 所有 Vue 實例都可使用
+        Vue.component('global-component', {
+            template: `
+                <div>
+                    My component
+                </div>
+            `
+        });
+        new Vue({
+            el: "#app"
+        });
+
+        // local component 只在該實例下使用
+        new Vue({
+            el: "#app2",
+            components: {
+                'local-component': {
+                    template: `
+                        <div>
+                            component 2
+                        </div>
+                    `
+                }
+            }
+        });
+    </script>
+</body>

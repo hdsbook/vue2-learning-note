@@ -1,0 +1,31 @@
+<head>
+    <title>監聽組件的原生事件 .native</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 這樣是沒用的 -->
+        <my-button @click="btnClick"></my-button>
+
+        <!-- 這樣是有用的 (要監聽組件原生事件，要加上 .native 修飾符) -->
+        <my-button @click.native="btnClick"></my-button>
+    </div>
+
+    <script>
+        new Vue({
+            el: "#app",
+            components: {
+                myButton: {
+                    template: `
+                        <button>button</button>
+                    `
+                },
+            },
+            methods: {
+                btnClick() {
+                    alert('clicked');
+                }
+            },
+        });
+    </script>
+</body>

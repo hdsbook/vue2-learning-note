@@ -1,0 +1,24 @@
+<head>
+    <title>v-model</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <label>v-bind</label>
+        <input :value="text" type="text" />
+
+        <label>v-model</label>
+        <input v-model="text" type="text" />
+        <h1>{{ text }}</h1>
+    </div>
+    <script>
+        // v-bind  是單向的 (Vue實例 => DOM)
+        // v-model 是雙向的
+        new Vue({
+            el: "#app",
+            data: {
+                text: 'asdf'
+            },
+        });
+    </script>
+</body>

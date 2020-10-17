@@ -1,0 +1,42 @@
+<head>
+    <title>檔案上傳與圖片預覽實作</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+
+<body>
+    <div id="app">
+        <div id="app">
+            <input type="file" @change="fileSelected">
+            <img :src="image" width="200">
+            <button @click="upload">Upload</button>
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                image: '',
+                file: null,
+            },
+            methods: {
+                fileSelected(evt) {
+                    this.file = evt.target.files.item(0);
+                    const reader = new FileReader();
+                    // 監聽當 reader 載入完畢時，執行 imageLoaded 函式
+                    reader.addEventListener('load', this.imageLoaded);
+                    // reader 進行讀取檔案並轉為 base64 編碼
+                    reader.readAsDataURL(this.file);
+                },
+                imageLoaded(evt) {
+                    this.image = evt.target.result;
+                },
+
+                upload() {
+                    const form = new FormData();
+                    form.append(this.file, this.file.name);
+                    axios.post('/upload', form);
+                }
+            }
+        });
+    </script>
+</body>

@@ -1,0 +1,30 @@
+<head>
+    <title>動態綁定 props：數字型態問題</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 傳到下層的 number 會是預設字串 "1" -->
+        <counter number="1"></counter>
+
+        <!-- 用動態綁定的話，number 就會是數字 1 -->
+        <counter :number="1"></counter>
+    </div>
+
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                number: 1,
+            },
+            components: {
+                counter: {
+                    props: ['number'],
+                    template: `
+                        <div>{{ number + 1 }}</div>
+                    `
+                },
+            }
+        });
+    </script>
+</body>

@@ -1,0 +1,33 @@
+<head>
+    <title>綁定資料為DOM元素的style</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <div id="app">
+        <h1 :style="h1Style">Hello World</h1>
+        <button class="btn btn-success"
+            @click="shrink">shrink</button>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                size: 40,
+            },
+            computed: {
+                h1Style() {
+                    return {
+                        fontSize: `${this.size}px`
+                    };
+                }
+            },
+            methods: {
+                shrink() {
+                    this.size--;
+                }
+            },
+        });
+
+    </script>
+</body>

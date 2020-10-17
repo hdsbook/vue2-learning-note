@@ -1,0 +1,33 @@
+<head>
+    <title>v-if, v-for</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <h1 v-if="see">Now you see me </h1>
+        <h1 v-else>Now you don't </h1>
+        <button @click="toggle">toggle</button>
+
+        <ul v-for="step in steps" :key="step.id">
+            <li>{{ step }}</li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                see: true,
+                steps: [
+                    'one',
+                    'two',
+                    'three',
+                ]
+            },
+            methods: {
+                toggle() {
+                    this.see = !this.see;
+                }
+            },
+        });
+    </script>
+</body>

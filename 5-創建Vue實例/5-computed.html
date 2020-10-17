@@ -1,0 +1,42 @@
+<head>
+    <title>computed</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <input type="number" v-model="a">
+        <span>+</span>
+        <input type="number" v-model="b">
+        <span>=</span>
+        <input type="number" v-model="c">
+        <input type="number" v-model="c2">
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                a: 8,
+                b: 9,
+            },
+            computed: {
+                // computed 變數宣告為函式時，不能被宣告為箭頭函式
+                c() {
+                    return parseInt(this.a, 10) + parseInt(this.b, 10);
+                },
+
+                // computed 變數宣告為物件時，有 get 和 set 兩個屬性可設定
+                // (上面宣告為函式時，視為只有設置 get 函式)
+                c2: {
+                   get() {
+                    return parseInt(this.a, 10) + parseInt(this.b, 10);
+                   },
+                   set(newC) {
+                    console.log(newC);
+                    this.b = parseInt(newC, 10) - parseInt(this.a, 10);
+                   }
+                }
+            },
+        });
+        console.log(vm.c);
+    </script>
+</body>

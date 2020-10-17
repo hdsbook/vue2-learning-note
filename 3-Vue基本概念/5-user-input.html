@@ -1,0 +1,18 @@
+<head>
+    <title>使用者輸入 v-model 雙向綁定</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <input v-model="text" type="text" />
+        <h1>{{ text }}</h1>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                text: ''
+            },
+        });
+    </script>
+</body>

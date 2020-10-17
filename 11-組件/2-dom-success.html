@@ -1,0 +1,22 @@
+<head>
+    <title>避免DOM模版解析失敗，用字串模版 instead of HTML 模版</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script>
+        Vue.component('option-component', {
+            template: `<option>hello</option>`
+        });
+        new Vue({
+            el: "#app",
+            template: `
+                <select>
+                    <option-component></option-component>
+                </select>
+            `
+        });
+    </script>
+</body>

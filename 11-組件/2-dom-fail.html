@@ -1,0 +1,24 @@
+<head>
+    <title>DOM模版解析失敗原因</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- option-component 沒有顯示的原因：
+            瀏覽器解析階段，判斷 select 中應該只能有 option 元素
+            所以將 option-component 給移除了 -->
+        <select>
+            <option-component></option-component>
+        </select>
+    </div>
+    <script>
+        Vue.component('option-component', {
+            template: `<option>hello</option>`
+        });
+        new Vue({
+            el: "#app",
+        });
+    </script>
+</body>

@@ -1,0 +1,34 @@
+<head>
+    <title>Todo list 實作</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <input v-model="name" type="text" />
+        <button @click="add">add</button>
+        <ul>
+            <li v-for="(item, index) in items"
+                @click="remove(index)">
+                {{ item }}
+            </li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                name: '',
+                items: [1, 2, 3]
+            },
+            methods: {
+                add() {
+                    this.items.push(this.name)
+                    this.name = '';
+                },
+                remove(index) {
+                    this.items.splice(index, 1);
+                }
+            },
+        });
+    </script>
+</body>

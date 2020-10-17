@@ -1,0 +1,39 @@
+<head>
+    <title>單向數據流：從上層傳給下層</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <!-- counter1 -->
+        <h1>{{ count }}</h1>
+        <button @click="count++">+</button>
+
+        <!-- counter2 -->
+        <counter :count="count"></counter>
+
+        <!--
+            當counter1 ++ 時， counter2也會++，但當counter2++時，counter1不會++
+            且counter1變換時，會always蓋過counter2的值
+        -->
+    </div>
+
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                count: 0,
+            },
+            components: {
+                counter: {
+                    props: ["count"],
+                    template: `
+                        <div>
+                            <h1>{{ count }}</h1>
+                            <button @click="count++">+</button>
+                        </div>
+                    `
+                }
+            }
+        });
+    </script>
+</body>

@@ -1,0 +1,25 @@
+<head>
+    <title>Counter 實作</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{ count }}</h1>
+        <button @click="add">+</button>
+    </div>
+    <script>
+        // 相對於以往 jquery "命令式的渲染"(一個回令一個動作)
+        // Vue 採取 "宣告式的渲染" (聲明每個變數和對應的動作)
+        new Vue({
+            el: "#app",
+            data: {
+                count: 0
+            },
+            methods: {
+                add() {
+                    this.count ++;
+                }
+            },
+        });
+    </script>
+</body>

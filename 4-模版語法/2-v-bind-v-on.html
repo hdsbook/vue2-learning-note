@@ -1,0 +1,29 @@
+<head>
+    <title>v-bind, v-on</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <!-- v-bind:checked 縮寫為 :checked -->
+    <!-- v-on:click 縮寫為 @click -->
+    <div id="app">
+        {{ count }}
+        <input type="checkbox" :checked="count % 2 === 0">
+        <button @click="add">toggle</button>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                count: 0,
+            },
+            methods: {
+                add() {
+                    this.count ++;
+                },
+                toggle() {
+                    this.checked = !this.checked;
+                },
+            },
+        });
+    </script>
+</body>

@@ -1,0 +1,38 @@
+<head>
+    <title>組件的 data 必須是函式</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <counter></counter>
+        <counter></counter>
+    </div>
+    <script>
+        const countData = { count: 0 };
+
+        Vue.component('counter', {
+            // 組件的data必須是函式
+            data() {
+                // 回傳已存在的物件 (各組件的data將為相同的物件，故只擁有同一個狀態)
+                // return countData;
+
+                // 回傳一個物件 (各組件的data會是不同的物件，可以擁有各自的狀態)
+                return { count: 0 }
+            },
+            template: `
+                <div>
+                    <h1>{{ count }}</h1>
+                    <button @click="count++">+</button>
+                </div>
+            `
+        })
+        new Vue({
+            el: "#app",
+            data: {
+                count: 0
+            },
+
+        });
+    </script>
+</body>

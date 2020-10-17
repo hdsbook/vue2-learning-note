@@ -1,0 +1,60 @@
+<head>
+    <title>組件組合 - TODO LIST 實作</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <todo-list></todo-list>
+    </div>
+    <script>
+        Vue.component('todo-list', {
+            data() {
+                return {
+                    todos: ['a', 'b', 'c']
+                };
+            },
+            methods: {
+                addItem(name) {
+                    this.todos.push(name);
+                }
+            },
+            template: `
+                <div>
+                    <todo-input @eventAdd="addItem"></todo-input>
+                    <ul>
+                        <todo-item v-for="todo in todos" :todoName="todo"></todo-item>
+                    </ul>
+                </div>
+            `
+        });
+
+        Vue.component('todo-input', {
+            data() {
+                return {
+                    newItemName: '',
+                };
+            },
+            methods: {
+                submit() {
+                    this.$emit('eventAdd', this.newItemName);
+                    this.newItemName = '';
+                }
+            },
+            template: `
+                <form @submit.prevent="submit">
+                    <input type="text" v-model="newItemName">
+                    <button type="submit">Submit</button>
+                </form>
+            `
+        });
+
+        Vue.component('todo-item', {
+            props: ['todoName'],
+            template: "<li>{{ todoName }}</li>"
+        });
+
+        new Vue({
+            el: "#app",
+        });
+    </script>
+</body>

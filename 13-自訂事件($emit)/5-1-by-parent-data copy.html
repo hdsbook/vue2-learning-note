@@ -1,0 +1,34 @@
+<head>
+    <title>
+        平行組件的溝通方式
+        1. 宣告為父組件的data
+    </title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <my-count :count="count"></my-count>
+        <my-button @click.native="add"></my-button>
+    </div>
+
+    <script>
+        Vue.component('my-count', {
+            props: ['count'],
+            template: "<h1>{{ count }}</h1>"
+        })
+        Vue.component('my-button', {
+            template: "<button>+</button>",
+        })
+        new Vue({
+            el: "#app",
+            data: {
+                count: 0,
+            },
+            methods: {
+                add() {
+                    this.count++;
+                }
+            },
+        });
+    </script>
+</body>

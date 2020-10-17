@@ -1,0 +1,50 @@
+<head>
+    <title>動態組件 component :is，keep-alive</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="content='list'">List</button>
+        <button @click="content='create'">Create</button>
+        <br>
+        <!-- 動態組件 -->
+        <component :is="content"></component>
+
+        <hr>
+
+        <!-- 用 keep alive 可以維持組件的狀態 -->
+        <keep-alive>
+            <component :is="content"></component>
+        </keep-alive>
+    </div>
+    <script>
+        Vue.component('list', {
+            template: `
+                <div>
+                    <ul>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+            `
+        })
+        Vue.component('create', {
+            template: `
+                <div>
+                    <textarea></textarea>
+                    <br>
+                    <button>create</button>
+                </div>
+            `
+        })
+        new Vue({
+            el: "#app",
+            data: {
+                content: "list"
+            },
+        });
+    </script>
+</body>

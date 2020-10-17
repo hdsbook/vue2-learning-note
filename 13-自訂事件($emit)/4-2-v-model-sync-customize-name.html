@@ -1,0 +1,51 @@
+<head>
+    <title>
+        v-model 簡化將資料更新到上層元素的流程
+        (用 model 自訂 prop, emit 事件名稱)
+    </title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <h1>{{ outerCount }}</h1>
+
+        <my-counter v-model="outerCount"></my-counter>
+        <!-- 等價於： -->
+        <my-counter :count="outerCount" @update:count="val => this.outerCount = val"></my-counter>
+
+    </div>
+
+    <script>
+        Vue.component('my-counter', {
+            model: {
+                prop: 'count',
+                event: 'update:count'
+            },
+            props: ['count'],
+            data() {
+                return {
+                    innerCount: this.count,
+                }
+            },
+            template: `
+                <div>
+                    <h1>{{ innerCount }}</h1>
+                    <button @click="innerCount++">+1</button>
+                    <button @click="sync">sync</button>
+                </div>
+            `,
+            methods: {
+                sync() {
+                    this.$emit('update:count', this.innerCount);
+                }
+            },
+        })
+
+        new Vue({
+            el: "#app",
+            data: {
+                outerCount: 10,
+            },
+        });
+    </script>
+</body>

@@ -1,0 +1,45 @@
+<head>
+    <title>單向數據流：傳computed給下層</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <!-- counter1 -->
+        <h1>{{ count }}</h1>
+        <button @click="count++">+</button>
+
+        <!-- counter2 -->
+        <counter :count="countDoubled"></counter>
+
+        <!-- 單向傳給下層一個 computed 變數作為 props -->
+    </div>
+
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                count: 10,
+            },
+            computed: {
+                countDoubled() {
+                    return this.count * 2;
+                }
+            },
+            components: {
+                counter: {
+                    props: ["count"],
+                    data() {
+                        return {
+                            count: this.count
+                        }
+                    },
+                    template: `
+                        <div>
+                            <h1>{{ count }}</h1>
+                        </div>
+                    `
+                }
+            }
+        });
+    </script>
+</body>

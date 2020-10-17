@@ -1,0 +1,45 @@
+<head>
+    <title>將資料更新到上層元素的流程，原本的寫法(請繼續看3-2)</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <h1>outerCount: {{ outerCount }}</h1>
+        <my-counter :outer-count="outerCount" @update="setOuterCount"></my-counter>
+    </div>
+
+    <script>
+        Vue.component('my-counter', {
+            props: ['outerCount'],
+            data() {
+                return {
+                    innerCount: this.outerCount,
+                }
+            },
+            template: `
+                <div>
+                    <h1>innerCount: {{ innerCount }}</h1>
+                    <button @click="innerCount++">+1</button>
+                    <button @click="sync">sync</button>
+                </div>
+            `,
+            methods: {
+                sync() {
+                    this.$emit('update', this.innerCount);
+                }
+            },
+        })
+
+        new Vue({
+            el: "#app",
+            data: {
+                outerCount: 10,
+            },
+            methods: {
+                setOuterCount(count) {
+                    this.outerCount = count;
+                }
+            },
+        });
+    </script>
+</body>

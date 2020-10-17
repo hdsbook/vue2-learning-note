@@ -1,0 +1,44 @@
+<head>
+    <title>
+        平行組件的溝通方式
+        2. event bus
+    </title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <my-count></my-count>
+        <my-button></my-button>
+    </div>
+
+    <script>
+        // 宣告 bus 為沒有綁定DOM元素的Vue實體
+        // 作為各組件發出、監聽事件的渠道
+        const bus = new Vue();
+
+        Vue.component('my-count', {
+            data() {
+                return {
+                    count: 0,
+                }
+            },
+            mounted() {
+                bus.$on('add-count', () => { // 注意，這邊要用箭頭函式
+                    this.count += 1;
+                })
+            },
+            template: "<h1>{{ count }}</h1>"
+        })
+        Vue.component('my-button', {
+            template: "<button @click='click'>+</button>",
+            methods: {
+                click() {
+                    bus.$emit('add-count');
+                }
+            },
+        })
+        new Vue({
+            el: "#app"
+        });
+    </script>
+</body>

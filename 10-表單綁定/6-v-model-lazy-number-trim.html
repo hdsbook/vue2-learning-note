@@ -1,0 +1,38 @@
+<head>
+    <title>更多語法糖 v-model.lazy, v-model.number, v-model.trim</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <label>normal</label>
+            <input v-model="text" type="text" />
+            <h1>{{ text }}</h1>
+        </div>
+        <div>
+            <label>lazy：blur時(結束編輯時)才觸發資料改變</label>
+            <input v-model.lazy="text" type="text" />
+            <h1>{{ text }}</h1>
+        </div>
+        <div>
+            <label>number：將資料型態視為數字</label>
+            <input v-model.number="num" type="text" />
+            <h1>{{ num + 1 }}</h1>
+        </div>
+        <div>
+            <label>trim：自動trim資料字串</label>
+            <input v-model.trim="text" type="text" />
+            <h1>[{{ text }}]</h1>
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                text: 'asdf',
+                num: 0,
+            },
+        });
+    </script>
+</body>

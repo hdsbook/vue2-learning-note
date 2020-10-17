@@ -1,0 +1,36 @@
+<head>
+    <title>創建Vue實例的方法 el, mount, template</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app_el">{{ message }}</div>
+    <div id="app_mount">{{ message }}</div>
+    <div id="app_template"></div>
+    <script>
+        //  el
+        new Vue({
+            el: "#app_el",
+            // el: document.getElementById("app_el"),
+            data: {
+                message: 'use el!'
+            }
+        });
+
+        // mount 事後掛載
+        const vm_mount = new Vue({
+            data: {
+                message: 'use mount!'
+            }
+        });
+        vm_mount.$mount("#app_mount");
+
+        // template，會直接取代目標內容
+        const vm_template = new Vue({
+            el: "#app_template",
+            data: {
+                message: 'use template!'
+            },
+            template: "<h2><b>{{ message }}</b></h2>"
+        });
+    </script>
+</body>

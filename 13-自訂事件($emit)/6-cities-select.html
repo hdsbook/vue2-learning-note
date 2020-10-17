@@ -1,0 +1,75 @@
+<head>
+    <title>鄉鎮市區下拉選單實作</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+</head>
+<body>
+    <div id="app">
+    </div>
+
+    <script>
+        (new Promise(function(resolve) {
+            $.getJSON('https://gist.githubusercontent.com/hdsbook/de81cc9a2c16d9709f72006b1a12e944/raw/a1e1fc17d04b47c564bbd9dba0d59a6a325ec7c1/taiwan_districts.json', (cities) => {
+                resolve(cities);
+            })
+        })).then((cities) => {
+            console.log(cities);
+
+            Vue.component('Select', {
+                props: ['options', 'value'],
+                computed: {
+                    selectedIdx: {
+                        get() {
+                            return this.value;
+                        },
+                        set(val) {
+                            this.$emit('input', val);
+                        }
+                    },
+                },
+                template: `
+                    <select v-model="selectedIdx">
+                        <option v-for="(item, idx) in options" :value="idx">
+                            {{ item.name }}
+                        </option>
+                    </select>
+                `
+            })
+
+            new Vue({
+                el: "#app",
+                data: {
+                    cityIdx: 0,    // 已選 縣市Index
+                    districtIdx: 0,// 已選 鄉鎮市區Index
+                    cities: cities // 縣市 下拉選項
+                },
+                computed: {
+                    districts() { // 鄉鎮市區 下拉選項
+                        return this.cities[this.cityIdx].districts;
+                    },
+                    zip() { // 已選中的郵遞區號
+                        return this.districts[this.districtIdx].zip;
+                    }
+                },
+                watch: {
+                    cityIdx() {
+                        this.districtIdx = 0;
+                    }
+                },
+                template: `
+                    <div>
+                        <Select v-model="cityIdx" :options="cities"/>
+                        <Select v-model="districtIdx" :options="districts"/>
+
+                        <p>已選縣市：{{ cityIdx }}</p>
+                        <p>已選鄉鎮市區：{{ districtIdx }}</p>
+                        <p>郵遞區號：{{ zip }}</p>
+                    </div>
+                `
+            });
+        })
+
+
+
+    </script>
+</body>

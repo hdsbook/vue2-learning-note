@@ -1,0 +1,51 @@
+<head>
+    <title>watch</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <input type="number" v-model="x">
+        {{ doublex }}
+        <div>
+            <input v-model="obj.a" type="text" />
+        </div>
+    </div>
+    <script>
+        // 註：如果可以用 computed 達到，盡量不要用 watch
+        new Vue({
+            el: "#app",
+            data: {
+                x: 0,
+                obj: {
+                    a: ''
+                },
+            },
+            computed: {
+                doublex() {
+                    return this.x * 2;
+                }
+            },
+            watch: {
+                x(val, oldVal){
+                    console.log('x');
+                    console.log(oldVal + '->' + val);
+                    console.log('---');
+                },
+                doublex(val, oldVal){
+                    console.log('doublex');
+                    console.log(oldVal + '->' + val);
+                    console.log('-----');
+                },
+                obj: {
+                    handler(val, oldVal){
+                        console.log('input');
+                        console.log(oldVal + '->' + val);
+                        console.log('-----');
+                    },
+                    immediate: true, // 是否在Vue初始化時就執行偵測
+                    deep: true, // 是否作深度偵測物件內容
+                }
+            },
+        });
+    </script>
+</body>

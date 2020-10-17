@@ -1,0 +1,36 @@
+<head>
+    <title>組件發出自訂事件給上層($emit)</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <!-- emit 有發示，散播的意思 -->
+    <div id="app">
+        <my-button @event-from-btn="listenFromBtn"></my-button>
+    </div>
+
+    <script>
+        new Vue({
+            el: "#app",
+            methods: {
+                listenFromBtn(a, b, c) {
+                    console.log(a, b, c);
+                }
+            },
+            components: {
+                myButton: {
+                    template: `
+                        <div>
+                            <button @click="btnClick">my button</button>
+                        </div>
+                    `,
+                    methods: {
+                        btnClick() {
+                            // 發出一事件給上層，並給予三個參數 (事件的命名需為 kebab-case)
+                            this.$emit('event-from-btn', 1, 2, 3);
+                        }
+                    },
+                },
+            },
+        });
+    </script>
+</body>

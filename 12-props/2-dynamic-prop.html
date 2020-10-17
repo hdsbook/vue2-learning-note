@@ -1,0 +1,53 @@
+<head>
+    <title>動態綁定 props</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 這樣傳到下層的 props text 會是純文字 "text" -->
+        <my-component text="text"></my-component>
+        <hr>
+
+        <!-- 動態綁定 props 為上層變數，要用 v-bind -->
+        <my-component :text="text"></my-component>
+        <hr>
+
+        <!-- 將 post.author 與 post.title 傳到下層的 author 與 title -->
+        <post v-for="post in posts" :key="post.id"
+            :author="post.author"
+            :title="post.title" ></post>
+        <hr>
+
+        <!-- 可以縮寫成：v-bind="post" 就是將 post 的所有屬性當作下層的 props -->
+        <post v-for="post in posts" :key="post.id"
+            v-bind="post"></post>
+    </div>
+
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                text: "hello",
+                posts: [
+                    { id: 1, author: '孔子', title: '春秋' },
+                    { id: 2, author: '曾參', title: '大學' },
+                    { id: 3, author: '子思', title: '中庸' }
+                ]
+            },
+            components: {
+                myComponent: {
+                    props: ['text'],
+                    template: `
+                        <div>{{ text }}</div>
+                    `
+                },
+                post: {
+                    props: ['author', 'title'],
+                    template: `
+                        <div>{{ author }}: {{ title }}</div>
+                    `
+                },
+            }
+        });
+    </script>
+</body>

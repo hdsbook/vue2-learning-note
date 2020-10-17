@@ -1,0 +1,44 @@
+<head>
+    <title>單向數據流：避免上層蓋掉下層</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <!-- counter1 -->
+        <h1>{{ count }}</h1>
+        <button @click="count++">+</button>
+
+        <!-- counter2 -->
+        <counter :start="count"></counter>
+
+        <!--
+            只指定counter2的初始值為counter1的count
+            counter2使用自己的count，則counter1.count變動時，就不會影響到counter2.count了
+        -->
+    </div>
+
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                count: 10,
+            },
+            components: {
+                counter: {
+                    props: ["start"],
+                    data() {
+                        return {
+                            count: this.start
+                        }
+                    },
+                    template: `
+                        <div>
+                            <h1>{{ count }}</h1>
+                            <button @click="count++">+</button>
+                        </div>
+                    `
+                }
+            }
+        });
+    </script>
+</body>

@@ -1,0 +1,49 @@
+<head>
+    <title>組件傳遞資料給上層($emit)</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <!-- emit 有發示，散播的意思 -->
+    <div id="app">
+        <h1>{{ count }}</h1>
+        <counter @count-emit="countEmitFromChild"></counter>
+    </div>
+
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    count: 0,
+                }
+            },
+            methods: {
+                countEmitFromChild(childCount) {
+                    this.count = childCount;
+                }
+            },
+            components: {
+                counter: {
+                    data() {
+                        return {
+                            count: 0,
+                        }
+                    },
+                    template: `
+                        <div>
+                            <h1>{{ count }}</h1>
+                            <button @click="count++">+1</button>
+                            <button @click="countEmit">emit</button>
+                        </div>
+                    `,
+                    methods: {
+                        countEmit() {
+                            // 發出一事件給上層，傳入下層的 count
+                            this.$emit('count-emit', this.count);
+                        }
+                    },
+                },
+            },
+        });
+    </script>
+</body>

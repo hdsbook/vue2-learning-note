@@ -1,0 +1,32 @@
+<head>
+    <title>Single source of truth</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        <input type="checkbox" v-model="a">
+        <input type="checkbox" v-model="b">
+        <input type="checkbox" v-model="c">
+        <span>{{ selected }}</span>
+    </div>
+    <script>
+        // Single source of truth: 同一資料來源，只能從一個 data source 得知
+        // 此時 selected 就不適合用 data，而是用 computed
+        // (若selected 做為 data，則a的值可由 a 或 selected 推得之)
+        // 當有一個值完全可以由另外一個值算出來的話，用 computed 取代之
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                a: true,
+                b: true,
+                c: true,
+            },
+            computed: {
+                selected() {
+                    return ['a', 'b', 'c'].filter(item => this[item])
+                }
+            },
+        });
+
+    </script>
+</body>
