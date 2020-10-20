@@ -1,0 +1,45 @@
+<head>
+    <title>mapGetters</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vuex/3.5.1/vuex.min.js'></script>
+</head>
+<body>
+    <div id="app">
+    </div>
+
+    <script>
+        const store = new Vuex.Store({
+            state: {
+                todos: [],
+            },
+            // getters 就像 vuex 中的 computed
+            getters: {
+                // 第一個參數是 state
+                todosNotDone(state) {
+                    return state.todos.filter(todo => !todo.done);
+                },
+                // 第二個參數是所有的 getters
+                todosNotDoneLength(state, getters) {
+                    return getters.todosNotDone.length;
+                },
+                // 可以回傳 一個函式
+                todoWithID(state) {
+                    return (id) => {
+                        return state.todos.filter(todo => todo.id === id);
+                    };
+                },
+                // 上式可簡寫如下
+                todoWithID: state =>
+                    id => state.todos.filter(todo => todo.id === id),
+            }
+        })
+        new Vue({
+            el: "#app",
+            store,            // store: store,
+            computed: {
+                ...Vuex.mapState(['todos']),
+                ...Vuex.mapGetters(['todosNotDone']),
+            },
+        });
+    </script>
+</body>

@@ -1,0 +1,69 @@
+<head>
+    <title>mapGetters</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.2/vue.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vuex/3.5.1/vuex.min.js'></script>
+</head>
+<body>
+    <div id="app">
+        mutations 中的方法都只能是同步操作
+        actions 非同步方法要放在actions，但不能直接改state中的屬性，需透過 mutation 來改變 state 的屬性
+
+        mutations 第一個參數階為state，第二參數為 payload，可以修改 state 中的屬性
+        actions 第一個參數為 context，第二參數為 payload，不能直接改 state 中的屬性，需透過 mutation 來改變 state 的屬性
+
+        mutations 對應的是commit
+        actions對應的是dispatch
+    </div>
+
+    <script>
+        const url = '...';
+        const store = new Vuex.Store({
+            state: {
+                todos: [],
+            },
+            mutations: {
+                setTodos(state, todos) {
+                    state.todos = todos;
+                }
+            },
+            actions: {
+                fetchTodos(context, payload) {
+                    // context 與 store 幾乎一樣，但在modules中會多了 rootState、rootActions…
+                    fetch(`${url}/todos`)
+                        .then(rs => rs.json())
+                        .then(todos => {
+                            context.commit('setTodos', todos)
+                            context.dispatch('fetchUserInfo');
+                        })
+                },
+                // 運用解構，可以寫成：
+                fetchTodos({commit, dispatch}, payload) {
+                    // context 與 store 幾乎一樣，但多了一些東西
+                    fetch(`${url}/todos`)
+                        .then(rs => rs.json())
+                        .then(todos => {
+                            commit('setTodos', todos)
+                            dispatch('fetchUserInfo');
+                        })
+                },
+                fetchUserInfo() {
+                    // ...
+                }
+            }
+        })
+        new Vue({
+            el: "#app",
+            store,            // store: store,
+            computed: {
+                ...Vuex.mapState(['todos']),
+                ...Vuex.mapGetters(['todosNotDone']),
+            },
+            methods: {
+                ...Vuex.mapActions(['fetchTodos']),
+            },
+            mounted() {
+                this.$store.dispatch('fetchTodos')
+            },
+        });
+    </script>
+</body>
